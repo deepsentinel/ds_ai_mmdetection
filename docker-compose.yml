@@ -6,9 +6,10 @@ services:
     environment:
       - NVIDIA_VISIBLE_DEVICES=all  # Make all GPUs visible
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility  # Enable CUDA and nvidia-smi
+      - WANDB_API_KEY=${WANDB_API_KEY:?please specify WANDB_API_KEY}
     volumes:
-      - ${MMDETECTION_DATA_DIR}:/mmdetection/data  # Mount data directory
-      - ${MMDETECTION_WORK_DIRS}:/mmdetection/work_dirs  # Mount work directory for outputs
+      - ${MMDETECTION_DATA_DIR:?please specify dataset path}:/mmdetection/data  # Mount data directory
+      - ${MMDETECTION_WORK_DIRS:?please specify work directory}:/mmdetection/work_dirs  # Mount work directory for outputs
       - ${MMDETECTION_CONFIGS:-./configs}:/mmdetection/configs  # Mount custom configs
     deploy:
       resources:
@@ -19,7 +20,7 @@ services:
               capabilities: [gpu]
     shm_size: '32gb'
     command: [
-      "python", "tools/train.py", "/mmdetection/configs/rtmdet/rtmdet_l_convnext_b_4xb32-100e_coco.py", 
+      "python", "tools/train.py", "configs/rtmdet/ds_ml_rtmdet_l_convnext_b_4xb32-100e_coco.py", 
       "--work-dir", "/mmdetection/work_dirs/rtmdet_l_convnext_b_4xb8",
       "--cfg-options", "train_dataloader.dataset.data_root=/mmdetection/data",
       "--cfg-options", "train_dataloader.dataset.ann_file=train.json",
