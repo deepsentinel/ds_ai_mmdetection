@@ -1,0 +1,39 @@
+services:
+  mmdetection:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all  # Make all GPUs visible
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility  # Enable CUDA and nvidia-smi
+    volumes:
+      - ${MMDETECTION_DATA_DIR}:/mmdetection/data  # Mount data directory
+      - ${MMDETECTION_WORK_DIRS}:/mmdetection/work_dirs  # Mount work directory for outputs
+      - ${MMDETECTION_CONFIGS:-./configs}:/mmdetection/configs  # Mount custom configs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    shm_size: '32gb'
+    command: [
+      "python", "tools/train.py", "/mmdetection/configs/rtmdet/rtmdet_l_convnext_b_4xb32-100e_coco.py", 
+      "--work-dir", "/mmdetection/work_dirs/rtmdet_l_convnext_b_4xb8",
+      "--cfg-options", "train_dataloader.dataset.data_root=/mmdetection/data",
+      "--cfg-options", "train_dataloader.dataset.ann_file=train.json",
+      "--cfg-options", "train_dataloader.dataset.data_prefix.img='data'",
+      "--cfg-options", "train_dataloader.dataset.metainfo.classes=['class_1']",
+      "--cfg-options", "val_dataloader.dataset.data_root=/mmdetection/data",
+      "--cfg-options", "val_dataloader.dataset.ann_file=val.json",
+      "--cfg-options", "val_dataloader.dataset.data_prefix.img='data'",
+      "--cfg-options", "val_dataloader.dataset.metainfo.classes=['class_1']",
+      "--cfg-options", "test_dataloader.dataset.data_root=/mmdetection/data",
+      "--cfg-options", "test_dataloader.dataset.ann_file=test.json",
+      "--cfg-options", "test_dataloader.dataset.data_prefix.img='data'",
+      "--cfg-options", "test_dataloader.dataset.metainfo.classes=['class_1']",
+      "--cfg-options", "val_evaluator.ann_file='/mmdetection/data/val.json'",
+      "--cfg-options", "test_evaluator.ann_file='/mmdetection/data/val.json'",
+      "--cfg-options", "train_dataloader.batch_size=8"
+    ]
