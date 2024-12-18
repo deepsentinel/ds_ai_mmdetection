@@ -23,7 +23,7 @@ services:
       "python", "tools/train.py", "configs/rtmdet/ds_ml_rtmdet_l_convnext_b_4xb32-100e_coco.py", 
       "--work-dir", "/mmdetection/work_dirs/rtmdet_l_convnext_b_4xb16",
       "--cfg-options", "train_dataloader.dataset.data_root=/mmdetection/data",
-      "--cfg-options", "train_dataloader.dataset.ann_file=train.json",
+      "--cfg-options", "train_dataloader.dataset.ann_file=train_subsample.json",
       "--cfg-options", "train_dataloader.dataset.data_prefix.img='data'",
       "--cfg-options", "train_dataloader.dataset.metainfo.classes=['class_1']",
       "--cfg-options", "val_dataloader.dataset.data_root=/mmdetection/data",
