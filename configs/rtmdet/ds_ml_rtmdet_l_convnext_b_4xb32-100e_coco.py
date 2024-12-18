@@ -6,8 +6,17 @@ vis_backends = [
     dict(type='LocalVisBackend'),
     dict(type='WandbVisBackend',
          init_kwargs={
-            'project': 'mmdetection',
-            'group': 'rtmdet-l-convnext-b-4xb32-100e-coco'
+            'project': 'platform-validation',
+            'group': 'mock', # rtmdet-l-convnext-b-4xb16-100e
+            'tags': ['rtmdet', 'convnext-l', 'batch-16', 'ds-yolov4-val']
          })
 ]
 visualizer = dict(vis_backends=vis_backends)
+
+# fp16 settings
+optim_wrapper = dict(type='AmpOptimWrapper', loss_scale='dynamic')
+
+interval = 1  # validate every 1 epoch
+train_cfg = dict(val_interval=interval)
+default_hooks = dict(checkpoint=dict(interval=interval, max_keep_ckpts=3))
+
