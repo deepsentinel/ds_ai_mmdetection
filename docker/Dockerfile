@@ -11,7 +11,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install MMEngine and MMCV
-RUN pip install --upgrade pip && pip install opencv-python==4.7.0.72
+RUN pip install --upgrade pip && pip install wandb opencv-python==4.7.0.72
     
 RUN pip install openmim && \
     mim install "mmpretrain"
