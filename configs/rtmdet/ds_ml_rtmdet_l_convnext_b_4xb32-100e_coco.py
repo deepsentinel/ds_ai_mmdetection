@@ -6,7 +6,7 @@ vis_backends = [
          init_kwargs={
             'project': 'platform-validation',
             'group': 'mock', # rtmdet-l-convnext-b-4xb16-100e
-            'tags': ['rtmdet', 'convnext-l', 'batch-16', 'ds-yolov4-val']
+            'tags': ['rtmdet', 'convnext-l', 'batch-16', 'ds-yolov4-subsample']
          })
 ]
 visualizer = dict(vis_backends=vis_backends)
@@ -14,7 +14,7 @@ visualizer = dict(vis_backends=vis_backends)
 # fp16 settings
 optim_wrapper = dict(type='AmpOptimWrapper', loss_scale='dynamic')
 
-interval = 1  # validate every 1 epoch
+interval = 3  # validate every 1 epoch
 train_cfg = dict(val_interval=interval)
 default_hooks = dict(
    visualization=dict(type='DetVisualizationHook', draw=True, show=False, interval=interval),
