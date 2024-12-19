@@ -1,8 +1,5 @@
 _base_ = './rtmdet_l_convnext_b_4xb32-100e_coco.py'
 
-visualization = _base_.default_hooks.visualization
-visualization.update(dict(draw=True, show=True))
-
 vis_backends = [
     dict(type='LocalVisBackend'),
     dict(type='WandbVisBackend',
@@ -17,8 +14,10 @@ visualizer = dict(vis_backends=vis_backends)
 # fp16 settings
 optim_wrapper = dict(type='AmpOptimWrapper', loss_scale='dynamic')
 
-interval = 1  # validate every 1 epoch
+interval = 3  # validate every 1 epoch
 train_cfg = dict(val_interval=interval)
-checkpoint = _base_.default_hooks.checkpoint
-checkpoint.update(dict(interval=interval, max_keep_ckpts=3))
+default_hooks = dict(
+   visualization=dict(type='DetVisualizationHook', draw=True, show=False, interval=interval),
+   checkpoint=dict(interval=interval, max_keep_ckpts=3)
+)
 
