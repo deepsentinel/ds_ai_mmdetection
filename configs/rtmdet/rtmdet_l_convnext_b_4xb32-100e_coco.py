@@ -29,7 +29,7 @@ model = dict(
     neck=dict(in_channels=[256, 512, 1024], norm_cfg=norm_cfg),
     bbox_head=dict(norm_cfg=norm_cfg))
 
-max_epochs = 100
+max_epochs = 30
 stage2_num_epochs = 10
 interval = 10
 base_lr = 0.001

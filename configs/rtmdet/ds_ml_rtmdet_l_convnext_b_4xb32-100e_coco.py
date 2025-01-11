@@ -4,9 +4,8 @@ vis_backends = [
     dict(type='LocalVisBackend'),
     dict(type='WandbVisBackend',
          init_kwargs={
-            'project': 'platform-validation',
-            'group': 'mock', # rtmdet-l-convnext-b-4xb16-100e
-            'tags': ['rtmdet', 'convnext-l', 'batch-16', 'ds-yolov4-subsample']
+            'project': 'platform-validation-cctv',
+            'tags': ['rtmdet', 'convnext-l', 'batch-16', 'cctv', "full-dataset"]
          })
 ]
 visualizer = dict(vis_backends=vis_backends)
