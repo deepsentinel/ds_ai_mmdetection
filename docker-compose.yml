@@ -21,15 +21,14 @@ services:
     shm_size: '32gb'
     command: [
       "python", "tools/test.py", 
-      "configs/rtmdet/rtmdet_x_8xb32-300e_coco.py", 
-      "/mmdetection/work_dirs/rtmdet_x/rtmdet_x_8xb32-300e_coco_20220715_230555-cc79b9ae.pth",
-      "--work-dir", "/mmdetection/work_dirs/rtmdet_x",
+      "projects/CO-DETR/configs/codino/co_dino_5scale_swin_l_16xb1_16e_o365tococo.py", 
+      "/mmdetection/work_dirs/co_detr_swin_l/mscoco.pth",
+      "--work-dir", "/mmdetection/work_dirs/co_detr_swin_l",
       "--cfg-options", 
-      "test_dataloader.batch_size=16",
+      "test_dataloader.batch_size=2",
       "test_dataloader.dataset.data_root=/mmdetection/data",
       "test_dataloader.dataset.ann_file=val.json",
       "test_dataloader.dataset.data_prefix.img='data'",
       "test_evaluator.ann_file='/mmdetection/data/val.json'",
-      "test_evaluator.classwise=True",
-      "test_evaluator.outfile_prefix='/mmdetection/work_dirs/rtmdet_x'"
+      "test_evaluator.classwise=True"
     ]
